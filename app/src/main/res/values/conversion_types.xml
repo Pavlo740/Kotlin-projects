@@ -1,0 +1,8 @@
+<resources>
+    <string-array name="conversion_types">
+        <item>Довжина</item>
+        <item>Маса</item>
+        <item>Температура</item>
+        <!-- Додайте інші типи конвертації за необхідністю -->
+    </string-array>
+</resources>

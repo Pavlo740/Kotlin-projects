@@ -1,22 +1,32 @@
 package com.example.calculator_2
 
-import androidx.appcompat.app.AppCompatActivity
+import BaseActivity
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+class MainActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var screen: TextView
     private var currentInput: StringBuilder = StringBuilder()
     private var currentOperator: String? = null
     private var storedValue: Double = 0.0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
 
 
         val num_0: Button = findViewById(R.id.num_0)
@@ -44,8 +54,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         screen = findViewById(R.id.screen)
 
 
-
-
         val buttons = arrayOf(
             num_0, num_1, num_2, num_3, num_4, num_5, num_6, num_7, num_8, num_9,
             num_c, num_ac, num_krapka, num_plus_and_munys, num_vidsotky, num_dilenya,
@@ -58,30 +66,38 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         screen = findViewById(R.id.screen)
     }
 
+
     override fun onClick(v: View?) {
         if (v is Button) {
             when (v.id) {
                 R.id.num_c -> {
                     clearLastInput()
                 }
+
                 R.id.num_ac -> {
                     clearAll()
                 }
+
                 R.id.num_plus_and_munys -> {
                     changeSign()
                 }
+
                 R.id.num_vidsotky -> {
                     calculatePercentage()
                 }
+
                 R.id.num_krapka -> {
                     addDot()
                 }
+
                 R.id.num_plus, R.id.num_munus, R.id.num_mno, R.id.num_dilenya -> {
                     handleOperator(v.text.toString())
                 }
+
                 R.id.num_doriv -> {
                     performCalculation()
                 }
+
                 else -> {
                     val buttonText = v.text?.toString() ?: ""
                     handleInput(buttonText)
@@ -89,6 +105,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
     private fun handleOperator(operator: String) {
         if (currentInput.isNotEmpty()) {
             storedValue = currentInput.toString().toDouble()
@@ -121,7 +138,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-
     private fun handleInput(input: String) {
 
         if (currentInput.length + input.length <= 8) {
@@ -137,6 +153,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         screen.text = currentInput.toString()
     }
+
     private fun clearLastInput() {
 
         if (currentInput.isNotEmpty()) {
@@ -144,6 +161,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             screen.text = currentInput.toString()
         }
     }
+
     private fun clearAll() {
 
         currentInput.clear()
@@ -159,6 +177,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             screen.text = currentInput.toString()
         }
     }
+
     private fun calculatePercentage() {
 
         if (currentInput.isNotEmpty() && currentInput.toString().toDouble() != 0.0) {
@@ -169,6 +188,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             screen.text = currentInput.toString()
         }
     }
+
     private fun addDot() {
 
         if (currentInput.isNotEmpty() && !currentInput.contains(".")) {
@@ -177,7 +197,63 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        // Збереження стану додатку перед перезавантаженням
+        outState.putString("currentInput", currentInput.toString())
+        outState.putString("currentOperator", currentOperator)
+        outState.putDouble("storedValue", storedValue)
+
+        // Викликайте батьківський метод, щоб зберегти стан
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        // Відновлення збереженого стану після перезавантаження
+        super.onRestoreInstanceState(savedInstanceState)
+
+        // Отримання даних з Bundle
+        val savedInput = savedInstanceState.getString("currentInput")
+        val savedOperator = savedInstanceState.getString("currentOperator")
+        val savedStoredValue = savedInstanceState.getDouble("storedValue")
+
+        // Відновлення даних в змінні вашого додатку
+        currentInput.clear()
+        currentInput.append(savedInput)
+        currentOperator = savedOperator
+        storedValue = savedStoredValue
+
+        // Оновлення елементів інтерфейсу за потреби
+        screen.text = currentInput.toString()
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_open_converter -> {
+                val inputValue = screen.text.toString()
+                val intent = Intent(this, ConverterActivity::class.java)
+                intent.putExtra("startValue", inputValue)
+                startActivity(intent)
+                return true
+            }
+            R.id.action_exit -> {
+                showExitDialog()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
 
 }
+
+
+
+
+
 
 

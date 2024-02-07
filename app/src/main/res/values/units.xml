@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Одиниці вимірювання довжини -->
+    <string-array name="length_units">
+        <item>мм</item>
+        <item>см</item>
+        <item>м</item>
+        <item>км</item>
+        <!-- Додайте інші одиниці вимірювання за необхідності -->
+    </string-array>
+
+    <!-- Одиниці вимірювання маси -->
+    <string-array name="mass_units">
+        <item>кг</item>
+        <item>фунт</item>
+        <item>тонна</item>
+        <!-- Додайте інші одиниці вимірювання за необхідності -->
+    </string-array>
+
+    <!-- Одиниці вимірювання температури -->
+    <string-array name="temperature_units">
+        <item>°C</item>
+        <item>°F</item>
+        <item>K</item>
+        <!-- Додайте інші одиниці вимірювання за необхідності -->
+    </string-array>
+</resources>

@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Base.Theme.Calculator_Pz" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Base.Theme.Calculator_Pz" parent="Theme.AppCompat.Light.DarkActionBar">
 
-        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
 
@@ -66,4 +66,5 @@
         <item name="android:background">@drawable/shape3</item>
 
     </style>
+
 </resources>
